@@ -90,7 +90,8 @@
                 <CheckBox x:Name="chkFind" 
                           Content="Find all occurence"
                           Foreground="White"
-                          Margin="0 3 0 0"/>
+                          Margin="0 3 0 0"
+                          IsChecked="False"/>
 
                 <TextBlock Text="Choose Searching Method"
                            Foreground="White"
@@ -104,7 +105,9 @@
                 <RadioButton x:Name="rdrDFS"
                              Content="DFS"
                              Foreground="White"
-                             Margin="0 3 0 0"/>
+                             Margin="0 3 0 0" 
+                             IsChecked="False"
+                             />
 
                 <Button x:Name="btnSearch"
                         Content="Search"
@@ -118,6 +121,10 @@
                         HyperLink explorer.exe
                     </Hyperlink>
                 </TextBlock>
+                
+                <TextBlock x:Name="method"
+                           Text="Method"
+                           Foreground="White"/>
 
             </StackPanel>
             <GridSplitter x:Name="gridSplitter"

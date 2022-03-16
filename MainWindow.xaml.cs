@@ -32,18 +32,45 @@ namespace Tubes2_13520027
         {
             FolderBrowserDialog folderDlg = new FolderBrowserDialog();
             folderDlg.ShowNewFolderButton = true;
-            // folderDlg.InitialDirectory = 
+
             // Show the FolderBrowserDialog.  
             DialogResult result = folderDlg.ShowDialog();
+
             // Change txtBoxFolder to Path
             txtBoxFolder.Text = folderDlg.SelectedPath;
-            Environment.SpecialFolder root = folderDlg.RootFolder;
 
         }
 
         private void btnSearch_Click(object sender, RoutedEventArgs e)
         {
             progress.IsIndeterminate = true;
+            // BFS/DFS(<folder path>, isChecked);
+            if (chkFind.IsChecked == true)
+            {
+                if (rdrBFS.IsChecked == true)
+                {
+                    method.Text = "BFS Find All Occurence";
+                    // BFS(txtBoxFolder.Text, true);
+                }
+                else if (rdrDFS.IsChecked == true)
+                {
+                    method.Text = "DFS Find All Occurence";
+                    // DFS(txtBoxFolder.Text, true);
+                }
+            }
+            else
+            {
+                if (rdrBFS.IsChecked == true)
+                {
+                    method.Text = "BFS";
+                    // BFS(txtBoxFolder.Text, false);
+                }
+                else if (rdrDFS.IsChecked == true)
+                {
+                    method.Text = "DFS";
+                    // DFS(txtBoxFolder.Text, false);
+                }
+            }
         }
 
         private void Hyperlink_Click(object sender, RoutedEventArgs e)
