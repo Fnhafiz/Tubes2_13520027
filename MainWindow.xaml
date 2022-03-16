@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Crawler" MinHeight="450" MinWidth="800"
         Background="#FF272537"
-        FontFamily="Fonts/#Poppins" Icon="Images/amogus.png">
+        FontFamily="Fonts/#Poppins" Icon="/amogus.png">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
