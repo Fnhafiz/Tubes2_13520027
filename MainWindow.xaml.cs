@@ -15,6 +15,10 @@ using System.Windows.Shapes;
 using System.IO;
 using System.Windows.Forms;
 using System.Diagnostics;
+using Microsoft.Msagl.Drawing;
+using Microsoft.Msagl.WpfGraphControl;
+using Color = Microsoft.Msagl.Drawing.Color;
+using Shape = Microsoft.Msagl.Drawing.Shape;
 
 namespace Tubes2_13520027
 {
@@ -26,35 +30,53 @@ namespace Tubes2_13520027
         public MainWindow()
         {
             InitializeComponent();
+            Loaded += MainWindow_Loaded;
+        }
+
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            var graph = new Graph();
+
+            graph.AddEdge("A", "B");
+            graph.AddEdge("B", "C");
+            graph.AddEdge("A", "C").Attr.Color = Color.Green;
+            graph.FindNode("A").Attr.FillColor = Color.Magenta;
+            graph.FindNode("B").Attr.FillColor = Color.MistyRose;
+            Node c = graph.FindNode("C");
+            c.Attr.FillColor = Color.PaleGreen;
+            c.Attr.Shape = Shape.Diamond;
+            graphControl.Graph = graph;
         }
 
         private void btnFolder_Click(object sender, RoutedEventArgs e)
         {
             FolderBrowserDialog folderDlg = new FolderBrowserDialog();
             folderDlg.ShowNewFolderButton = true;
-
-            // Show the FolderBrowserDialog.  
-            DialogResult result = folderDlg.ShowDialog();
+            folderDlg.Description = "Choose Starting Directory";
+            folderDlg.UseDescriptionForTitle = true;
+            folderDlg.InitialDirectory = "file://";
+            folderDlg.ShowDialog();
 
             // Change txtBoxFolder to Path
             txtBoxFolder.Text = folderDlg.SelectedPath;
-
         }
 
         private void btnSearch_Click(object sender, RoutedEventArgs e)
         {
             progress.IsIndeterminate = true;
+            var watch = new Stopwatch();
+            watch.Start();
             // BFS/DFS(<folder path>, isChecked);
             if (chkFind.IsChecked == true)
             {
                 if (rdrBFS.IsChecked == true)
                 {
-                    method.Text = "BFS Find All Occurence";
+                    method.Text = "Method: BFS Find All Occurence";
                     // BFS(txtBoxFolder.Text, true);
                 }
-                else if (rdrDFS.IsChecked == true)
+                else
                 {
-                    method.Text = "DFS Find All Occurence";
+                    method.Text = "Method: DFS Find All Occurence";
                     // DFS(txtBoxFolder.Text, true);
                 }
             }
@@ -62,15 +84,20 @@ namespace Tubes2_13520027
             {
                 if (rdrBFS.IsChecked == true)
                 {
-                    method.Text = "BFS";
+                    method.Text = "Method: BFS";
                     // BFS(txtBoxFolder.Text, false);
                 }
-                else if (rdrDFS.IsChecked == true)
+                else
                 {
-                    method.Text = "DFS";
+                    method.Text = "Method: DFS";
                     // DFS(txtBoxFolder.Text, false);
                 }
             }
+            watch.Stop();
+            pathfile.Text = $"Path File: ";
+            path.Visibility = Visibility.Visible;
+            time.Text = $"Time Spent: {watch.ElapsedMilliseconds} ms";
+            progress.IsIndeterminate = false;
         }
 
         private void Hyperlink_Click(object sender, RoutedEventArgs e)
