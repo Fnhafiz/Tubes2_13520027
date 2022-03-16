@@ -5,129 +5,127 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Tubes2_13520027"
         mc:Ignorable="d"
-        Title="Crawler" Height="450" Width="800"
-        ResizeMode="NoResize"
-        Background="#272537">
+        Title="Crawler" MinHeight="450" MinWidth="800"
+        Background="#FF272537"
+        FontFamily="Fonts/#Poppins" Icon="Images/amogus.png">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="300"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <Border BorderThickness="1" 
-                BorderBrush="White"
-                Grid.Row="3"
-                Grid.ColumnSpan="1"/>
-        <Border BorderThickness="1" 
-                BorderBrush="White"
-                Grid.Row="3"
-                Grid.Column="2">
-        </Border>
-        <Border BorderThickness="1" 
-                BorderBrush="White"
-                Grid.Row="1"
-                Grid.ColumnSpan="1"/>
-        <Border BorderThickness="1" 
-                BorderBrush="White"
-                Grid.Row="1"
-                Grid.Column="2"/>
-
-        <TextBlock x:Name="txtTitle"
-                   TextWrapping="Wrap"
-                   Text="FolderCrawler"
+        <TextBlock Text="FolderCrawler"
                    Foreground="White"
                    VerticalAlignment="Center"
                    HorizontalAlignment="Center"
-                   FontFamily="Fonts/#Poppins"
-                   FontSize="20" Grid.ColumnSpan="2"
-                   />
-        <TextBlock x:Name="txtInput"
-                   TextWrapping="Wrap"
-                   Text="Input"
-                   Foreground="White"
-                   Grid.Column="0"
-                   Grid.Row="1"
-                   VerticalAlignment="Center"
-                   HorizontalAlignment="Center"
-                   FontFamily="Fonts/#Poppins"
-                   FontSize="20"
-                   />
-        <TextBlock x:Name="txtOutput"
-                   TextWrapping="Wrap"
-                   Text="Output"
-                   Foreground="White"
-                   Grid.Column="1"
-                   Grid.Row="1"
-                   VerticalAlignment="Center"
-                   HorizontalAlignment="Center"
-                   FontFamily="Fonts/#Poppins"
-                   FontSize="20"
-                   />
-        
-        <StackPanel Grid.Row="2" Margin="20 0 20 0">
-            <TextBlock x:Name="txtChooseDir"
-                       TextWrapping="Wrap"
-                       Text="Choose Starting Directory"
-                       Foreground="White"
-                       FontFamily="Fonts/#Poppins"
-                       Margin="0 15 0 0"/>
-            <StackPanel Orientation="Horizontal" Margin="0 5 0 0">
-                <Button x:Name="btnFolder"
-                        Content="Choose Folder.." Click="btnFolder_Click"
-                        />
-                <TextBox x:Name="txtBoxFolder"
-                         TextWrapping="Wrap"
-                         Text="No Folder Chosen"
-                         Foreground="DarkBlue"
-                         FontFamily="Fonts/#Poppins"
-                         VerticalAlignment="Center"
-                         HorizontalAlignment="Center"
-                         Margin="5 0 0 0"
-                         MinWidth="170"
-                         />
-            </StackPanel>
-
-            <TextBlock x:Name="txtInputFile"
-                       TextWrapping="Wrap"
-                       Text="Input File Name"
-                       Foreground="White"
-                       FontFamily="Fonts/#Poppins"
-                       Margin="0 15 0 0"/>
-            <TextBox x:Name="txtBoxFile"
-                     TextWrapping="Wrap"
-                     Text="e.g. 'word.pdf'"
-                     Foreground="DarkBlue"
-                     Tag="w"
-                     FontFamily="Fonts/#Poppins"
-                     Margin="0 5 0 0"/>
-            <CheckBox x:Name="chkFind" 
-                      Content="Find all occurence"
-                      Foreground="White"
-                      Margin="0 5 0 0"/>
-
-            <TextBlock x:Name="txtChooseMethod"
-                       TextWrapping="Wrap"
-                       Text="Choose Searching Method"
-                       Foreground="White"
-                       FontFamily="Fonts/#Poppins"
-                       Margin="0 15 0 0"/>
-            <RadioButton x:Name="rdrBFS"
-                         Content="BFS"
-                         Foreground="White"
-                         IsChecked="True"/>
-            <RadioButton x:Name="rdrDFS"
-                         Content="DFS"
-                         Foreground="White"/>
+                   FontSize="27"
+                   Grid.Row="0"
+                   Margin="0 15 0 15" TextDecorations="Underline"
+                       />
+        <Grid Grid.Row="1" ShowGridLines="True">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" MinWidth="300" MaxWidth="700"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
             
-            <Button x:Name="btnSearch"
-                    Content="Search"
-                    Margin="0 15 0 0"/>
+            <TextBlock Text="Input"
+                       Foreground="White"
+                       Grid.Column="0"
+                       Grid.Row="0"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+                       FontSize="20"
+                       Margin="0 5 0 10"
+                       />
+            <TextBlock Text="Output"
+                       Foreground="White"
+                       Grid.Column="1"
+                       Grid.Row="0"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+                       FontSize="20"
+                       Margin="0 5 0 10"
+                       />
 
-        </StackPanel>
+            <StackPanel Grid.Row="2" Margin="20 0 20 0">
+                <TextBlock Text="Choose Starting Directory"
+                           Foreground="White"
+                           Margin="0 15 0 0" 
+                           FontWeight="SemiBold"
+                           />
 
+                <Grid Margin="0 3 0 0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="btnFolder"
+                            Content="Choose Folder.."
+                            Click="btnFolder_Click"
+                            Grid.Column="0"
+                            Padding="3 0 3 0"
+                            />
+                    <TextBox x:Name="txtBoxFolder"
+                             TextWrapping="Wrap"
+                             Text="No Folder Chosen"
+                             Foreground="DarkBlue"
+                             Margin="3 0 0 0"
+                             Grid.Column="1"
+                             />
+                </Grid>
+            
+                <TextBlock Text="Input File Name"
+                           Foreground="White"
+                           Margin="0 15 0 0"
+                           FontWeight="SemiBold"
+                           />
+                <TextBox x:Name="txtBoxFile"
+                         TextWrapping="Wrap"
+                         Text="e.g. 'word.pdf'"
+                         Foreground="DarkBlue"
+                         Margin="0 5 0 0"/>
+                <CheckBox x:Name="chkFind" 
+                          Content="Find all occurence"
+                          Foreground="White"
+                          Margin="0 3 0 0"/>
+
+                <TextBlock Text="Choose Searching Method"
+                           Foreground="White"
+                           Margin="0 15 0 0"
+                           FontWeight="SemiBold"/>
+                <RadioButton x:Name="rdrBFS"
+                             Content="BFS"
+                             Foreground="White"
+                             Margin="0 5 0 0"
+                             IsChecked="True"/>
+                <RadioButton x:Name="rdrDFS"
+                             Content="DFS"
+                             Foreground="White"
+                             Margin="0 3 0 0"/>
+
+                <Button x:Name="btnSearch"
+                        Content="Search"
+                        Margin="0 15 0 0" Click="btnSearch_Click"/>
+
+                <ProgressBar x:Name="progress" Height="10"
+                             Margin="0 15 0 0" Foreground="#FF8865BD"/>
+            
+                <TextBlock Margin="0 15 0 0">
+                    <Hyperlink Click="Hyperlink_Click">
+                        HyperLink explorer.exe
+                    </Hyperlink>
+                </TextBlock>
+
+            </StackPanel>
+            <GridSplitter x:Name="gridSplitter"
+                          Grid.Column="0"
+                          Grid.RowSpan="2"
+                          Width="2" 
+                          Background="Transparent"
+                          />
+        </Grid>
     </Grid>
 </Window>

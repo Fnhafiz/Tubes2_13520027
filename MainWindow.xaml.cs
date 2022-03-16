@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace Tubes2_13520027
 {
@@ -31,11 +32,23 @@ namespace Tubes2_13520027
         {
             FolderBrowserDialog folderDlg = new FolderBrowserDialog();
             folderDlg.ShowNewFolderButton = true;
+            // folderDlg.InitialDirectory = 
             // Show the FolderBrowserDialog.  
             DialogResult result = folderDlg.ShowDialog();
+            // Change txtBoxFolder to Path
             txtBoxFolder.Text = folderDlg.SelectedPath;
             Environment.SpecialFolder root = folderDlg.RootFolder;
 
+        }
+
+        private void btnSearch_Click(object sender, RoutedEventArgs e)
+        {
+            progress.IsIndeterminate = true;
+        }
+
+        private void Hyperlink_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start("explorer.exe", @"c:\users");
         }
 
     }
