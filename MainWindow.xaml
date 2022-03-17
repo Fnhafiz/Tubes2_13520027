@@ -171,7 +171,7 @@
                                                                  MinHeight="150"
                                                                  MinWidth="300"
                                                                  VerticalScrollBarVisibility="Hidden"
-                                                                 HorizontalAlignment="Center"/>
+                                                                 HorizontalAlignment="Center" Height="244" Width="444"/>
                 <TextBlock x:Name="method"
                            Text=""
                            Foreground="White"

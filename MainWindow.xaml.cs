@@ -19,6 +19,7 @@ using Microsoft.Msagl.Drawing;
 using Microsoft.Msagl.WpfGraphControl;
 using Color = Microsoft.Msagl.Drawing.Color;
 using Shape = Microsoft.Msagl.Drawing.Shape;
+using Tubes2_13520027;
 
 namespace Tubes2_13520027
 {
@@ -30,26 +31,59 @@ namespace Tubes2_13520027
         public MainWindow()
         {
             InitializeComponent();
-            Loaded += MainWindow_Loaded;
+            //Loaded += MainWindow_Loaded;
         }
 
-        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        //private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        //{
+        //    var graph = new Graph();
+
+        //    graph.AddEdge("A", "B");
+        //    graph.AddEdge("B", "C");
+        //    graph.AddEdge("A", "C").Attr.Color = Color.Green;
+        //    graph.FindNode("A").Attr.FillColor = Color.Magenta;
+        //    graph.FindNode("B").Attr.FillColor = Color.MistyRose;
+        //    graph.FindNode("A").Attr.Color = Color.Red;
+        //    Node c = graph.FindNode("C");
+        //    c.Attr.FillColor = Color.PaleGreen;
+        //    c.Attr.Shape = Shape.Diamond;
+        //    graphControl.Graph = graph;
+        //}
+
+        static void GraphDirectoryBFS(string dir, Graph graph, string target)
         {
-            var graph = new Graph();
+            string [] subdirs = Directory.GetDirectories(dir);
+            string answer = BFS.Search(dir, target);
 
-            graph.AddEdge("A", "B");
-            graph.AddEdge("B", "C");
-            graph.AddEdge("A", "C").Attr.Color = Color.Green;
-            graph.FindNode("A").Attr.FillColor = Color.Magenta;
-            graph.FindNode("B").Attr.FillColor = Color.MistyRose;
-            Node c = graph.FindNode("C");
-            c.Attr.FillColor = Color.PaleGreen;
-            c.Attr.Shape = Shape.Diamond;
-            graphControl.Graph = graph;
+            foreach (string subdir in subdirs)
+            {
+                graph.AddEdge(System.IO.Path.GetFileName(dir), System.IO.Path.GetFileName(subdir));
+                string[] files = Directory.GetFiles(subdir);
+
+                foreach (string file in files)
+                {
+                    //if (answer == file)
+                    //{
+                    //    graph.FindNode(System.IO.Path.GetFileName(subdir)).Attr.Color = Color.Green;
+                    //    graph.AddEdge(System.IO.Path.GetFileName(dir), System.IO.Path.GetFileName(subdir)).Attr.Color = Color.Green;
+                    //    graph.AddEdge(System.IO.Path.GetFileName(subdir), System.IO.Path.GetFileName(file)).Attr.Color = Color.Green;
+                    //} else
+                
+                    graph.AddEdge(System.IO.Path.GetFileName(subdir), System.IO.Path.GetFileName(file));    
+                }
+                GraphDirectoryBFS(subdir, graph, target);
+
+            }
+            if (answer != "Not Found")
+            {
+                graph.FindNode(System.IO.Path.GetFileName(answer)).Attr.FillColor = Color.Green;
+            }
         }
+
 
         private void btnFolder_Click(object sender, RoutedEventArgs e)
         {
+            var graph = new Graph();
             FolderBrowserDialog folderDlg = new FolderBrowserDialog();
             folderDlg.ShowNewFolderButton = true;
             folderDlg.Description = "Choose Starting Directory";
@@ -63,6 +97,7 @@ namespace Tubes2_13520027
 
         private void btnSearch_Click(object sender, RoutedEventArgs e)
         {
+            var graph = new Graph();
             progress.IsIndeterminate = true;
             var watch = new Stopwatch();
             watch.Start();
@@ -86,6 +121,8 @@ namespace Tubes2_13520027
                 {
                     method.Text = "Method: BFS";
                     // BFS(txtBoxFolder.Text, false);
+                    GraphDirectoryBFS(txtBoxFolder.Text, graph, txtBoxFile.Text);
+                    graphControl.Graph = graph;
                 }
                 else
                 {
