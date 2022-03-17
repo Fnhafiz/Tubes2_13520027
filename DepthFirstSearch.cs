@@ -7,11 +7,36 @@ using System.IO;
 
 namespace Tubes2_13520027
 {
-    internal class DepthFirstSearch
+    public class DepthFirstSearch
     {
-        public void DFS()
+        public List<string> DFS(string startingPath, string target)
         {
+            List<string> result = new List<string>();
+            string[] files = Directory.GetFiles(startingPath);
+            foreach(string file in files)
+            {
+                if(Path.GetFileName(file) == target)
+                {
+                    result.Add(file);
+                }
+            }
+            string[] dirs = Directory.GetDirectories(startingPath);
+            foreach (string dir in dirs)
+            {
+                result.Concat(DFS(dir, target));
+            }
 
+
+            return result;
         }
+        /*
+        public List<string> Search(string startingPath, string target)
+        {
+            List<string> result = new List<string>();
+
+
+            return 
+        }
+        */
     }
 }
