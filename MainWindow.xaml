@@ -181,8 +181,8 @@
                            Foreground="White"
                            Margin="0 15 0 0"/>
                 <TextBlock x:Name="path" Margin="0 3 0 0" Visibility="Hidden">
-                    <Hyperlink Click="Hyperlink_Click" Foreground="Aqua">
-                        c:\users
+                    <Hyperlink x:Name="LinkClick" Click="Hyperlink_Click" Foreground="Aqua">
+                        <TextBlock x:Name="txtBoxLink" Text="link"/>
                     </Hyperlink>
                 </TextBlock>
                 <TextBlock x:Name="time"

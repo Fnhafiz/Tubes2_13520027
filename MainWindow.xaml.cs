@@ -50,7 +50,7 @@ namespace Tubes2_13520027
         //    graphControl.Graph = graph;
         //}
 
-        static void GraphDirectoryBFS(string dir, Graph graph, string target)
+        private void GraphDirectoryBFS(string dir, Graph graph, string target)
         {
             string [] subdirs = Directory.GetDirectories(dir);
             string answer = BFS.Search(dir, target);
@@ -62,14 +62,18 @@ namespace Tubes2_13520027
 
                 foreach (string file in files)
                 {
-                    //if (answer == file)
-                    //{
-                    //    graph.FindNode(System.IO.Path.GetFileName(subdir)).Attr.Color = Color.Green;
-                    //    graph.AddEdge(System.IO.Path.GetFileName(dir), System.IO.Path.GetFileName(subdir)).Attr.Color = Color.Green;
-                    //    graph.AddEdge(System.IO.Path.GetFileName(subdir), System.IO.Path.GetFileName(file)).Attr.Color = Color.Green;
-                    //} else
-                
-                    graph.AddEdge(System.IO.Path.GetFileName(subdir), System.IO.Path.GetFileName(file));    
+                    if (answer == file)
+                    {
+                        graph.AddEdge(System.IO.Path.GetFileName(subdir), System.IO.Path.GetFileName(file));
+                        txtBoxLink.Text = subdir;
+                        //    graph.FindNode(System.IO.Path.GetFileName(subdir)).Attr.Color = Color.Green;
+                        //    graph.AddEdge(System.IO.Path.GetFileName(dir), System.IO.Path.GetFileName(subdir)).Attr.Color = Color.Green;
+                        //    graph.AddEdge(System.IO.Path.GetFileName(subdir), System.IO.Path.GetFileName(file)).Attr.Color = Color.Green;
+                    }
+                    else
+                    {
+                        graph.AddEdge(System.IO.Path.GetFileName(subdir), System.IO.Path.GetFileName(file));
+                    }
                 }
                 GraphDirectoryBFS(subdir, graph, target);
 
@@ -78,6 +82,8 @@ namespace Tubes2_13520027
             {
                 graph.FindNode(System.IO.Path.GetFileName(answer)).Attr.FillColor = Color.Green;
             }
+
+
         }
 
 
@@ -139,7 +145,7 @@ namespace Tubes2_13520027
 
         private void Hyperlink_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start("explorer.exe", @"c:\users");
+            Process.Start("explorer.exe", txtBoxLink.Text);
         }
 
     }
