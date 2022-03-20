@@ -2,6 +2,7 @@
 using Microsoft.Msagl.WpfGraphControl;
 using System.Diagnostics;
 using System.Windows;
+using System.IO;
 using System.Windows.Forms;
 
 namespace Tubes2_13520027
@@ -32,60 +33,67 @@ namespace Tubes2_13520027
 
         private void BtnSearch_Click(object sender, RoutedEventArgs e)
         {
-            progress.IsIndeterminate = true;
-
-            // Create Graph Panel
-            GraphViewer graphViewer = new();
-            graphViewer.BindToPanel(graphViewerPanel);
-
-            // Create Graph
-            Graph graph = new();
-
-            // Start Stopwatch
-            Stopwatch watch = new();
-            watch.Start();
-
-            if (chkFind.IsChecked == true)
+            if (Directory.Exists(txtBoxFolder.Text))
             {
-                if (rdrBFS.IsChecked == true)
+                progress.IsIndeterminate = true;
+
+                // Create Graph Panel
+                GraphViewer graphViewer = new();
+                graphViewer.BindToPanel(graphViewerPanel);
+
+                // Create Graph
+                Graph graph = new();
+
+                // Start Stopwatch
+                Stopwatch watch = new();
+                watch.Start();
+
+                if (chkFind.IsChecked == true)
                 {
-                    method.Text = "Method: BFS Find All Occurrences";
-                    // BFS(txtBoxFolder.Text, true);
-                    BFS.FindAllOccurrences(txtBoxFolder.Text, txtBoxFile.Text, graph);
+                    if (rdrBFS.IsChecked == true)
+                    {
+                        method.Text = "Method: BFS Find All Occurrences";
+                        // BFS(txtBoxFolder.Text, true);
+                        BFS.FindAllOccurrences(txtBoxFolder.Text, txtBoxFile.Text, graph);
+                    }
+                    else
+                    {
+                        method.Text = "Method: DFS Find All Occurrences";
+                        // DFS(txtBoxFolder.Text, true);
+                    }
                 }
                 else
                 {
-                    method.Text = "Method: DFS Find All Occurrences";
-                    // DFS(txtBoxFolder.Text, true);
+                    if (rdrBFS.IsChecked == true)
+                    {
+                        method.Text = "Method: BFS";
+                        // BFS(txtBoxFolder.Text, false);
+                    }
+                    else
+                    {
+                        method.Text = "Method: DFS";
+                        // DFS(txtBoxFolder.Text, false);
+                    }
                 }
+
+                // Stop Stopwatch
+                watch.Stop();
+
+                // Place Graph into Panel
+                graphViewer.Graph = graph;
+
+                // Add Stats
+                pathfile.Text = $"Path File: ";
+                path.Visibility = Visibility.Visible;
+                txtBoxLink.Text = BFS.answer;
+                time.Text = $"Time Spent: {watch.ElapsedMilliseconds} ms";
+
+                progress.IsIndeterminate = false;
             }
             else
             {
-                if (rdrBFS.IsChecked == true)
-                {
-                    method.Text = "Method: BFS";
-                    // BFS(txtBoxFolder.Text, false);
-                }
-                else
-                {
-                    method.Text = "Method: DFS";
-                    // DFS(txtBoxFolder.Text, false);
-                }
+                System.Windows.MessageBox.Show("Starting directory is not valid", "Crawler", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-
-            // Stop Stopwatch
-            watch.Stop();
-
-            // Place Graph into Panel
-            graphViewer.Graph = graph;
-
-            // Add Stats
-            pathfile.Text = $"Path File: ";
-            path.Visibility = Visibility.Visible;
-            txtBoxLink.Text = BFS.answer;
-            time.Text = $"Time Spent: {watch.ElapsedMilliseconds} ms";
-
-            progress.IsIndeterminate = false;
         }
 
         private void Hyperlink_Click(object sender, RoutedEventArgs e)
