@@ -4,7 +4,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Tubes2_13520027"
-        xmlns:wpfcoregraphcontrol="http://mlsagl"
         mc:Ignorable="d"
         Title="Crawler" 
         Height="450"
@@ -172,34 +171,34 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <DockPanel x:Name="graphViewerPanel" ClipToBounds="True"/>
-
-                <StackPanel Grid.Row="1" >
-                    <TextBlock x:Name="method"
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1" Margin="0 10 0 0">
+                    <StackPanel>
+                        <TextBlock x:Name="method"
                                Text=""
-                               Foreground="White"
-                               Margin="0 10 0 0"/>
-                    <TextBlock x:Name="time"
-                               Text=""
-                               Foreground="White"
-                               Margin="0 5 0 0"/>
-                    <TextBlock x:Name="pathfile"
+                               Foreground="White"/>
+                        <TextBlock x:Name="time"
                                Text=""
                                Foreground="White"
                                Margin="0 5 0 0"/>
+                        <TextBlock x:Name="pathfile"
+                               Text=""
+                               Foreground="White"
+                               Margin="0 5 0 0"/>
 
-                    <ListBox ItemsSource="{Binding Path=UrlsFound, Mode=OneWay}" Name="listAnswer" Visibility="Hidden">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate DataType="String">
-                                <TextBlock>
-                                    <Hyperlink x:Name="LinkClick" Click="Hyperlink_Click">
-                                        <TextBlock x:Name="txtBoxLink" Text="{Binding}" />
-                                    </Hyperlink>
-                                </TextBlock>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-
-                </StackPanel>
+                        <ListBox ItemsSource="{Binding Path=UrlsFound}" Name="listAnswer" Visibility="Hidden">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate DataType="String">
+                                    <TextBlock>
+                                        <Hyperlink>
+                                            <TextBlock Text="{Binding}" />
+                                        </Hyperlink>
+                                    </TextBlock>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </StackPanel>
+                </ScrollViewer>
+                
             </Grid>
         </Grid>
     </Grid>
