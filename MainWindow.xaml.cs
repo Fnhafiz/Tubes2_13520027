@@ -3,6 +3,7 @@ using Microsoft.Msagl.WpfGraphControl;
 using System.Diagnostics;
 using System.Windows;
 using System.IO;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace Tubes2_13520027
@@ -44,6 +45,9 @@ namespace Tubes2_13520027
                 // Create Graph
                 Graph graph = new();
 
+                // Create Answer
+                List<string> answer = new();
+
                 // Start Stopwatch
                 Stopwatch watch = new();
                 watch.Start();
@@ -54,7 +58,7 @@ namespace Tubes2_13520027
                     {
                         method.Text = "Method: BFS Find All Occurrences";
                         // BFS(txtBoxFolder.Text, true);
-                        BFS.FindAllOccurrences(txtBoxFolder.Text, txtBoxFile.Text, graph);
+                        BFS.FindAllOccurrences(txtBoxFolder.Text, txtBoxFile.Text, graph, answer);
                     }
                     else
                     {
@@ -84,8 +88,8 @@ namespace Tubes2_13520027
 
                 // Add Stats
                 pathfile.Text = $"Path File: ";
-                path.Visibility = Visibility.Visible;
-                txtBoxLink.Text = BFS.answer;
+                listAnswer.Visibility = Visibility.Visible;
+                listAnswer.ItemsSource = answer;
                 time.Text = $"Time Spent: {watch.ElapsedMilliseconds} ms";
 
                 progress.IsIndeterminate = false;
@@ -98,7 +102,8 @@ namespace Tubes2_13520027
 
         private void Hyperlink_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start("explorer.exe", txtBoxLink.Text);
+            //Process.Start("explorer.exe", txtBoxLink.Text);
+            Process.Start("explorer.exe");
         }
 
     }

@@ -7,8 +7,7 @@ namespace Tubes2_13520027
 {
     public class BFS
     {
-        public static string? answer;
-        public static void FindAllOccurrences(string startingPath, string target, Graph graph)
+        public static void FindAllOccurrences(string startingPath, string target, Graph graph, List<string> answer)
         {
             Queue<string> paths = new();
             paths.Enqueue(startingPath);
@@ -22,7 +21,7 @@ namespace Tubes2_13520027
                     graph.AddEdge(Path.GetFileName(path), Path.GetFileName(filePath));
                     if (Path.GetFileName(filePath) == target)
                     {
-                        answer = filePath;
+                        answer.Add(filePath);
                         graph.FindNode(Path.GetFileName(filePath)).Attr.FillColor = Color.Green;
                     }
                 }
