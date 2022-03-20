@@ -35,7 +35,7 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" MinWidth="300" MaxWidth="700"/>
+                <ColumnDefinition Width="Auto" MinWidth="200" MaxWidth="700"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <GridSplitter x:Name="gridSplitter"
@@ -73,7 +73,7 @@
                     </Grid.ColumnDefinitions>
                     <Button x:Name="btnFolder"
                             Content="Choose Folder"
-                            Click="btnFolder_Click"
+                            Click="BtnFolder_Click"
                             Grid.Column="0"
                             >
                         <Button.Style>
@@ -115,7 +115,7 @@
                          Foreground="DarkBlue"
                          Margin="0 5 0 0"/>
                 <CheckBox x:Name="chkFind" 
-                          Content="Find all occurence"
+                          Content="Find all occurrences"
                           Foreground="White"
                           Margin="0 3 0 0"
                           IsChecked="False"/>
@@ -138,7 +138,7 @@
                 <Button x:Name="btnSearch"
                         Content="Search"
                         Margin="0 15 0 0" 
-                        Click="btnSearch_Click">
+                        Click="BtnSearch_Click">
                     <Button.Style>
                         <Style TargetType="{x:Type Button}">
                             <Setter Property="Background" Value="#FE6584"/>
@@ -166,30 +166,41 @@
                              Margin="0 15 0 0" 
                              Foreground="#FF8865BD"/>
             </StackPanel>
-            <StackPanel Grid.Row="2" Grid.Column="1" Margin="20 15 20 15">
-                <wpfcoregraphcontrol:AutomaticGraphLayoutControl x:Name="graphControl"
-                                                                 MinHeight="150"
-                                                                 MinWidth="300"
-                                                                 VerticalScrollBarVisibility="Hidden"
-                                                                 HorizontalAlignment="Center" Height="244" Width="444"/>
-                <TextBlock x:Name="method"
-                           Text=""
-                           Foreground="White"
-                           Margin="0 15 0 0"/>
-                <TextBlock x:Name="pathfile"
-                           Text=""
-                           Foreground="White"
-                           Margin="0 15 0 0"/>
-                <TextBlock x:Name="path" Margin="0 3 0 0" Visibility="Hidden">
-                    <Hyperlink x:Name="LinkClick" Click="Hyperlink_Click" Foreground="Aqua">
-                        <TextBlock x:Name="txtBoxLink" Text="link"/>
-                    </Hyperlink>
-                </TextBlock>
-                <TextBlock x:Name="time"
-                           Text=""
-                           Foreground="White"
-                           Margin="0 15 0 0"/>
-            </StackPanel>
+            <Grid Grid.Row="1" Grid.Column="1" Margin="20 15 20 15">
+                <Grid.RowDefinitions>
+                    <RowDefinition MinHeight="200"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <DockPanel x:Name="graphViewerPanel" ClipToBounds="True"/>
+
+                <StackPanel Grid.Row="1" >
+                    <TextBlock x:Name="method"
+                               Text=""
+                               Foreground="White"
+                               Margin="0 10 0 0"/>
+                    <TextBlock x:Name="time"
+                               Text=""
+                               Foreground="White"
+                               Margin="0 5 0 0"/>
+                    <TextBlock x:Name="pathfile"
+                               Text=""
+                               Foreground="White"
+                               Margin="0 5 0 0"/>
+
+                    <ListBox ItemsSource="{Binding Path=UrlsFound, Mode=OneWay}" Name="listAnswer" Visibility="Hidden">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate DataType="String">
+                                <TextBlock>
+                                    <Hyperlink x:Name="LinkClick" Click="Hyperlink_Click">
+                                        <TextBlock x:Name="txtBoxLink" Text="{Binding}" />
+                                    </Hyperlink>
+                                </TextBlock>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+
+                </StackPanel>
+            </Grid>
         </Grid>
     </Grid>
 </Window>

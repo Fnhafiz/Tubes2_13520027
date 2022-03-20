@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <Resource Include="amogus.png" />
+    <Resource Include="Fonts/Poppins.ttf"/>
   </ItemGroup>
 
 </Project>
