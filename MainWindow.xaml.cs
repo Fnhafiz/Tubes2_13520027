@@ -1,9 +1,9 @@
 ﻿using Microsoft.Msagl.Drawing;
 using Microsoft.Msagl.WpfGraphControl;
-using System.Diagnostics;
-using System.Windows;
-using System.IO;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Windows;
 using System.Windows.Forms;
 
 namespace Tubes2_13520027
@@ -57,26 +57,25 @@ namespace Tubes2_13520027
                     if (rdrBFS.IsChecked == true)
                     {
                         method.Text = "Method: BFS Find All Occurrences";
-                        // BFS(txtBoxFolder.Text, true);
-                        BFS.FindAllOccurrences(txtBoxFolder.Text, txtBoxFile.Text, graph, answer);
+                        BFS.Find(txtBoxFolder.Text, txtBoxFile.Text, graph, answer, true);
                     }
-                    else
+                    else // rdrDFS.IsChecked == true
                     {
                         method.Text = "Method: DFS Find All Occurrences";
-                        // DFS(txtBoxFolder.Text, true);
+                        DFS.Find(txtBoxFolder.Text, txtBoxFile.Text, graph, answer, true);
                     }
                 }
-                else
+                else // chkFind.IsChecked == false
                 {
                     if (rdrBFS.IsChecked == true)
                     {
                         method.Text = "Method: BFS";
-                        // BFS(txtBoxFolder.Text, false);
+                        BFS.Find(txtBoxFolder.Text, txtBoxFile.Text, graph, answer, false);
                     }
-                    else
+                    else // rdrDFS.IsChecked == true
                     {
                         method.Text = "Method: DFS";
-                        // DFS(txtBoxFolder.Text, false);
+                        DFS.Find(txtBoxFolder.Text, txtBoxFile.Text, graph, answer, false);
                     }
                 }
 

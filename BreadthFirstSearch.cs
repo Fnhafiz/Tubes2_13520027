@@ -7,7 +7,7 @@ namespace Tubes2_13520027
 {
     public class BFS
     {
-        public static void FindAllOccurrences(string startingPath, string target, Graph graph, List<string> answer)
+        public static void Find(string startingPath, string target, Graph graph, List<string> answer, bool IsFindAll)
         {
             Queue<string> paths = new();
             paths.Enqueue(startingPath);
@@ -23,6 +23,10 @@ namespace Tubes2_13520027
                     {
                         answer.Add(filePath);
                         graph.FindNode(Path.GetFileName(filePath)).Attr.FillColor = Color.Green;
+                        if (!IsFindAll)
+                        {
+                            return;
+                        }
                     }
                 }
                 string[] dirs = Directory.GetDirectories(path);
