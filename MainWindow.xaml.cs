@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Forms;
+using System.Windows.Navigation;
 
 namespace Tubes2_13520027
 {
@@ -25,7 +26,14 @@ namespace Tubes2_13520027
             folderDlg.ShowNewFolderButton = true;
             folderDlg.Description = "Choose Starting Directory";
             folderDlg.UseDescriptionForTitle = true;
-            folderDlg.InitialDirectory = "file://";
+            if (Directory.Exists(txtBoxFolder.Text))
+            {
+                folderDlg.InitialDirectory = txtBoxFolder.Text;
+            }
+            else
+            {
+                folderDlg.InitialDirectory = "file://";
+            }
             folderDlg.ShowDialog();
 
             // Change txtBoxFolder to Path
@@ -99,10 +107,13 @@ namespace Tubes2_13520027
             }
         }
 
-        private void Hyperlink_Click(object sender, RoutedEventArgs e)
+        private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
         {
-            //Process.Start("explorer.exe", txtBoxLink.Text);
-            Process.Start("explorer.exe");
+            Process.Start(new ProcessStartInfo {
+                FileName = Path.GetDirectoryName(e.Uri.AbsoluteUri),
+                UseShellExecute = true,
+            });
+            e.Handled = true;
         }
 
     }

@@ -185,12 +185,12 @@
                                Foreground="White"
                                Margin="0 5 0 0"/>
 
-                        <ListBox ItemsSource="{Binding Path=UrlsFound}" Name="listAnswer" Visibility="Hidden">
+                        <ListBox ItemsSource="{Binding}" Name="listAnswer" Visibility="Hidden">
                             <ListBox.ItemTemplate>
-                                <DataTemplate DataType="String">
+                                <DataTemplate>
                                     <TextBlock>
-                                        <Hyperlink>
-                                            <TextBlock Text="{Binding}" />
+                                        <Hyperlink NavigateUri="{Binding}" RequestNavigate="Hyperlink_RequestNavigate">
+                                            <TextBlock Text="{Binding}"/>
                                         </Hyperlink>
                                     </TextBlock>
                                 </DataTemplate>
