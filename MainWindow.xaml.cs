@@ -1,10 +1,8 @@
 ﻿using Microsoft.Msagl.Drawing;
 using Microsoft.Msagl.WpfGraphControl;
 using System.Diagnostics;
-using System.IO;
 using System.Windows;
 using System.Windows.Forms;
-using Color = Microsoft.Msagl.Drawing.Color;
 
 namespace Tubes2_13520027
 {
@@ -16,39 +14,6 @@ namespace Tubes2_13520027
         public MainWindow()
         {
             InitializeComponent();
-        }
-
-        private void GraphDirectoryBFS(string dir, Graph graph, string target)
-        {
-            string[] subdirs = Directory.GetDirectories(dir);
-            string answer = BFS.Search(dir, target);
-
-            foreach (string subdir in subdirs)
-            {
-                graph.AddEdge(Path.GetFileName(dir), Path.GetFileName(subdir));
-                string[] files = Directory.GetFiles(subdir);
-
-                foreach (string file in files)
-                {
-                    if (answer == file)
-                    {
-                        graph.AddEdge(Path.GetFileName(subdir), Path.GetFileName(file));
-                        txtBoxLink.Text = subdir;
-                        //    graph.FindNode(Path.GetFileName(subdir)).Attr.Color = Color.Green;
-                        //    graph.AddEdge(Path.GetFileName(dir), Path.GetFileName(subdir)).Attr.Color = Color.Green;
-                        //    graph.AddEdge(Path.GetFileName(subdir), Path.GetFileName(file)).Attr.Color = Color.Green;
-                    }
-                    else
-                    {
-                        graph.AddEdge(Path.GetFileName(subdir), Path.GetFileName(file));
-                    }
-                }
-                GraphDirectoryBFS(subdir, graph, target);
-            }
-            if (answer != "Not Found")
-            {
-                graph.FindNode(Path.GetFileName(answer)).Attr.FillColor = Color.Green;
-            }
         }
 
         private void BtnFolder_Click(object sender, RoutedEventArgs e)
@@ -68,22 +33,29 @@ namespace Tubes2_13520027
         private void BtnSearch_Click(object sender, RoutedEventArgs e)
         {
             progress.IsIndeterminate = true;
+
+            // Create Graph Panel
             GraphViewer graphViewer = new();
             graphViewer.BindToPanel(graphViewerPanel);
+
+            // Create Graph
             Graph graph = new();
+
+            // Start Stopwatch
             Stopwatch watch = new();
             watch.Start();
-            // BFS/DFS(<folder path>, isChecked);
+
             if (chkFind.IsChecked == true)
             {
                 if (rdrBFS.IsChecked == true)
                 {
-                    method.Text = "Method: BFS Find All Occurence";
+                    method.Text = "Method: BFS Find All Occurrences";
                     // BFS(txtBoxFolder.Text, true);
+                    BFS.FindAllOccurrences(txtBoxFolder.Text, txtBoxFile.Text, graph);
                 }
                 else
                 {
-                    method.Text = "Method: DFS Find All Occurence";
+                    method.Text = "Method: DFS Find All Occurrences";
                     // DFS(txtBoxFolder.Text, true);
                 }
             }
@@ -93,7 +65,6 @@ namespace Tubes2_13520027
                 {
                     method.Text = "Method: BFS";
                     // BFS(txtBoxFolder.Text, false);
-                    GraphDirectoryBFS(txtBoxFolder.Text, graph, txtBoxFile.Text);
                 }
                 else
                 {
@@ -101,11 +72,19 @@ namespace Tubes2_13520027
                     // DFS(txtBoxFolder.Text, false);
                 }
             }
+
+            // Stop Stopwatch
             watch.Stop();
+
+            // Place Graph into Panel
             graphViewer.Graph = graph;
+
+            // Add Stats
             pathfile.Text = $"Path File: ";
             path.Visibility = Visibility.Visible;
+            txtBoxLink.Text = BFS.answer;
             time.Text = $"Time Spent: {watch.ElapsedMilliseconds} ms";
+
             progress.IsIndeterminate = false;
         }
 

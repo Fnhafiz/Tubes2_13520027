@@ -115,7 +115,7 @@
                          Foreground="DarkBlue"
                          Margin="0 5 0 0"/>
                 <CheckBox x:Name="chkFind" 
-                          Content="Find all occurence"
+                          Content="Find all occurrences"
                           Foreground="White"
                           Margin="0 3 0 0"
                           IsChecked="False"/>
