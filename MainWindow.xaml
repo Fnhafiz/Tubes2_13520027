@@ -185,19 +185,20 @@
                                Foreground="White"
                                Margin="0 5 0 0"/>
 
-                    <ListBox ItemsSource="{Binding}" Name="listAnswer" Visibility="Hidden">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock>
+                        <ListBox ItemsSource="{Binding}" Name="listAnswer" Visibility="Hidden">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock>
                                         <Hyperlink NavigateUri="{Binding}" RequestNavigate="Hyperlink_RequestNavigate">
                                             <TextBlock Text="{Binding}"/>
                                         </Hyperlink>
                                     </TextBlock>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
 
-                </StackPanel>
+                    </StackPanel>
+                </ScrollViewer>
             </Grid>
         </Grid>
     </Grid>
