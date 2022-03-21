@@ -75,7 +75,14 @@ namespace Tubes2_13520027
             folderDlg.ShowNewFolderButton = true;
             folderDlg.Description = "Choose Starting Directory";
             folderDlg.UseDescriptionForTitle = true;
-            folderDlg.InitialDirectory = "file://";
+            if (Directory.Exists(txtBoxFolder.Text))
+            {
+                folderDlg.InitialDirectory = txtBoxFolder.Text;
+            }
+            else
+            {
+                folderDlg.InitialDirectory = "file://";
+            }
             folderDlg.ShowDialog();
 
             // Change txtBoxFolder to Path
