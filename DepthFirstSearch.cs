@@ -1,7 +1,5 @@
-﻿using Microsoft.Msagl.Drawing;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using Color = Microsoft.Msagl.Drawing.Color;
 
 namespace Tubes2_13520027
 {

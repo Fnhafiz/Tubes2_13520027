@@ -1,13 +1,11 @@
-﻿using Microsoft.Msagl.Drawing;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using Color = Microsoft.Msagl.Drawing.Color;
 
 namespace Tubes2_13520027
 {
     public class BFS
     {
-        public static void Find(string startingPath, string target, List<string>visited, List<string> answer, bool IsFindAll)
+        public static void Find(string startingPath, string target, List<string> visited, List<string> answer, bool IsFindAll)
         {
             Queue<string> paths = new();
             paths.Enqueue(startingPath);

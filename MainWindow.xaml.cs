@@ -3,10 +3,9 @@ using Microsoft.Msagl.WpfGraphControl;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Navigation;
 
 namespace Tubes2_13520027
@@ -84,7 +83,7 @@ namespace Tubes2_13520027
             }
 
             // Warnain sisanya
-            for (int i = 0; i <allFile.Count; i++)
+            for (int i = 0; i < allFile.Count; i++)
             {
                 if (allFile[i] != startingPath)
                 {
@@ -96,7 +95,8 @@ namespace Tubes2_13520027
             if (found)
             {
                 graph.FindNode(Path.GetFileName(startingPath)).Attr.FillColor = Color.Green;
-            } else
+            }
+            else
             {
                 graph.FindNode(Path.GetFileName(startingPath)).Attr.FillColor = Color.Red;
             }
