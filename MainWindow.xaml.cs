@@ -5,6 +5,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Forms;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Navigation;
 
 namespace Tubes2_13520027
@@ -19,53 +21,86 @@ namespace Tubes2_13520027
             InitializeComponent();
         }
 
-        private void GraphInitial(string startingPath, Graph graph)
+        private void AllFileDirectories(string startingPath, List<string> AllFile)
         {
             string[] subdirs = Directory.GetDirectories(startingPath);
             foreach (string subdir in subdirs)
             {
-                graph.AddEdge(Path.GetFileName(startingPath), Path.GetFileName(subdir));
+                AllFile.Add(subdir);
                 string[] files = Directory.GetFiles(subdir);
 
                 foreach (string file in files)
                 {
-                    graph.AddEdge(Path.GetFileName(subdir), Path.GetFileName(file));
+                    AllFile.Add(file);
                 }
-                GraphInitial(subdir, graph);
+                AllFileDirectories(subdir, AllFile);
             }
         }
 
         private void GraphDirectory(string startingPath, List<string> visited, List<string> answer, Graph graph)
         {
-            GraphInitial(startingPath, graph);
+            var visitedDistinct = visited.Distinct().ToList();
+            List<string> answerDistinct = new();
+            List<string> allFile = new();
+            AllFileDirectories(startingPath, allFile);
+            bool found = false;
 
-            for (int i = 0; i < visited.Count; i++)
-            {
-                if (graph.FindNode(Path.GetFileName(visited[i])) != null)
-                {
-
-                    if (Path.GetFileName(visited[i]) != Path.GetFileName(startingPath))
-                    {
-                        //string filePath = Path.GetDirectoryName(visited[i]);
-                        //graph.RemoveNode(graph.FindNode(Path.GetFileName(filePath)));
-                        //graph.RemoveEdge(Edge (Path.GetFileName(filePath), Path.GetFileName(visited[i])));
-                        //graph.AddEdge(Path.GetFileName(filePath), Path.GetFileName(visited[i])).Attr.Color = Color.Red;
-                    }
-                    graph.FindNode(Path.GetFileName(visited[i])).Attr.FillColor = Color.Red;
-                }
-            }
+            // Warnain yang answer (hijau)
             for (int i = 0; i < answer.Count; i++)
             {
+                bool found2 = false;
                 string ans = answer[i];
-                while (ans != null)
+                while (ans != null && ans != startingPath)
                 {
-                    if (graph.FindNode(Path.GetFileName(ans)) != null)
-                    {                    
+                    for (int j = 0; j < answerDistinct.Count; j++)
+                    {
+                        if (ans == answerDistinct[j])
+                        {
+                            found2 = true;
+                        }
+                    }
+                    if (!found2)
+                    {
+                        graph.AddEdge(Path.GetFileName(Path.GetDirectoryName(ans)), Path.GetFileName(ans)).Attr.Color = Color.Green;
                         graph.FindNode(Path.GetFileName(ans)).Attr.FillColor = Color.Green;
+                        visitedDistinct.Remove(ans);
+                        allFile.Remove(ans);
+                        found = true;
+                        answerDistinct.Add(ans);
                     }
                     ans = Path.GetDirectoryName(ans);
                 }
             }
+
+            // Warnain yang visited (merah) tapi bukan answer
+            for (int i = 0; i < visitedDistinct.Count; i++)
+            {
+                if (visitedDistinct[i] != startingPath)
+                {
+                    allFile.Remove(visitedDistinct[i]);
+                    graph.AddEdge(Path.GetFileName(Path.GetDirectoryName(visitedDistinct[i])), Path.GetFileName(visitedDistinct[i])).Attr.Color = Color.Red;
+                    graph.FindNode(Path.GetFileName(visitedDistinct[i])).Attr.FillColor = Color.Red;
+                }
+            }
+
+            // Warnain sisanya
+            for (int i = 0; i <allFile.Count; i++)
+            {
+                if (allFile[i] != startingPath)
+                {
+                    graph.AddEdge(Path.GetFileName(Path.GetDirectoryName(allFile[i])), Path.GetFileName(allFile[i]));
+                }
+            }
+
+            // Warnain Starting Path -> Hijau atau Merah
+            if (found)
+            {
+                graph.FindNode(Path.GetFileName(startingPath)).Attr.FillColor = Color.Green;
+            } else
+            {
+                graph.FindNode(Path.GetFileName(startingPath)).Attr.FillColor = Color.Red;
+            }
+
         }
 
         private void BtnFolder_Click(object sender, RoutedEventArgs e)
