@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Forms;
+using System.Windows.Navigation;
 
 namespace Tubes2_13520027
 {
@@ -16,6 +17,55 @@ namespace Tubes2_13520027
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void GraphInitial(string startingPath, Graph graph)
+        {
+            string[] subdirs = Directory.GetDirectories(startingPath);
+            foreach (string subdir in subdirs)
+            {
+                graph.AddEdge(Path.GetFileName(startingPath), Path.GetFileName(subdir));
+                string[] files = Directory.GetFiles(subdir);
+
+                foreach (string file in files)
+                {
+                    graph.AddEdge(Path.GetFileName(subdir), Path.GetFileName(file));
+                }
+                GraphInitial(subdir, graph);
+            }
+        }
+
+        private void GraphDirectory(string startingPath, List<string> visited, List<string> answer, Graph graph)
+        {
+            GraphInitial(startingPath, graph);
+
+            for (int i = 0; i < visited.Count; i++)
+            {
+                if (graph.FindNode(Path.GetFileName(visited[i])) != null)
+                {
+
+                    if (Path.GetFileName(visited[i]) != Path.GetFileName(startingPath))
+                    {
+                        //string filePath = Path.GetDirectoryName(visited[i]);
+                        //graph.RemoveNode(graph.FindNode(Path.GetFileName(filePath)));
+                        //graph.RemoveEdge(Edge (Path.GetFileName(filePath), Path.GetFileName(visited[i])));
+                        //graph.AddEdge(Path.GetFileName(filePath), Path.GetFileName(visited[i])).Attr.Color = Color.Red;
+                    }
+                    graph.FindNode(Path.GetFileName(visited[i])).Attr.FillColor = Color.Red;
+                }
+            }
+            for (int i = 0; i < answer.Count; i++)
+            {
+                string ans = answer[i];
+                while (ans != null)
+                {
+                    if (graph.FindNode(Path.GetFileName(ans)) != null)
+                    {                    
+                        graph.FindNode(Path.GetFileName(ans)).Attr.FillColor = Color.Green;
+                    }
+                    ans = Path.GetDirectoryName(ans);
+                }
+            }
         }
 
         private void BtnFolder_Click(object sender, RoutedEventArgs e)
@@ -48,6 +98,9 @@ namespace Tubes2_13520027
                 // Create Answer
                 List<string> answer = new();
 
+                // Create Visited
+                List<string> visited = new();
+
                 // Start Stopwatch
                 Stopwatch watch = new();
                 watch.Start();
@@ -57,12 +110,14 @@ namespace Tubes2_13520027
                     if (rdrBFS.IsChecked == true)
                     {
                         method.Text = "Method: BFS Find All Occurrences";
-                        BFS.Find(txtBoxFolder.Text, txtBoxFile.Text, graph, answer, true);
+                        BFS.Find(txtBoxFolder.Text, txtBoxFile.Text, visited, answer, true);
+                        GraphDirectory(txtBoxFolder.Text, visited, answer, graph);
                     }
                     else // rdrDFS.IsChecked == true
                     {
                         method.Text = "Method: DFS Find All Occurrences";
-                        DFS.Find(txtBoxFolder.Text, txtBoxFile.Text, graph, answer, true);
+                        DFS.Find(txtBoxFolder.Text, txtBoxFile.Text, visited, answer, true);
+                        GraphDirectory(txtBoxFolder.Text, visited, answer, graph);
                     }
                 }
                 else // chkFind.IsChecked == false
@@ -70,12 +125,14 @@ namespace Tubes2_13520027
                     if (rdrBFS.IsChecked == true)
                     {
                         method.Text = "Method: BFS";
-                        BFS.Find(txtBoxFolder.Text, txtBoxFile.Text, graph, answer, false);
+                        BFS.Find(txtBoxFolder.Text, txtBoxFile.Text, visited, answer, false);
+                        GraphDirectory(txtBoxFolder.Text, visited, answer, graph);
                     }
                     else // rdrDFS.IsChecked == true
                     {
                         method.Text = "Method: DFS";
-                        DFS.Find(txtBoxFolder.Text, txtBoxFile.Text, graph, answer, false);
+                        DFS.Find(txtBoxFolder.Text, txtBoxFile.Text, visited, answer, false);
+                        GraphDirectory(txtBoxFolder.Text, visited, answer, graph);
                     }
                 }
 
@@ -99,10 +156,14 @@ namespace Tubes2_13520027
             }
         }
 
-        private void Hyperlink_Click(object sender, RoutedEventArgs e)
+        private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
         {
-            //Process.Start("explorer.exe", txtBoxLink.Text);
-            Process.Start("explorer.exe");
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = Path.GetDirectoryName(e.Uri.AbsoluteUri),
+                UseShellExecute = true,
+            });
+            e.Handled = true;
         }
 
     }

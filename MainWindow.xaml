@@ -187,14 +187,14 @@
                                Foreground="White"
                                Margin="0 5 0 0"/>
 
-                    <ListBox ItemsSource="{Binding Path=UrlsFound, Mode=OneWay}" Name="listAnswer" Visibility="Hidden">
+                    <ListBox ItemsSource="{Binding}" Name="listAnswer" Visibility="Hidden">
                         <ListBox.ItemTemplate>
-                            <DataTemplate DataType="String">
+                            <DataTemplate>
                                 <TextBlock>
-                                    <Hyperlink x:Name="LinkClick" Click="Hyperlink_Click">
-                                        <TextBlock x:Name="txtBoxLink" Text="{Binding}" />
-                                    </Hyperlink>
-                                </TextBlock>
+                                        <Hyperlink NavigateUri="{Binding}" RequestNavigate="Hyperlink_RequestNavigate">
+                                            <TextBlock Text="{Binding}"/>
+                                        </Hyperlink>
+                                    </TextBlock>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
