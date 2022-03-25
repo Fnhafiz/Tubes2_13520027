@@ -32,15 +32,21 @@ Program bekerja dengan menerima input _starting directory_ dan nama file lalu me
    git clone https://github.com/Fnhafiz/Tubes2_13520027.git
    ```
 
-2. Jalankan program
+2. Ganti Directory ke src
+
+   ```sh
+   cd src
+   ```
+
+3. Jalankan program
 
    ```sh
    dotnet run
    ```
 
-3. Masukan _starting directory_ dan nama file yang ingin dicari
-4. Pilih algoritma yang ingin dipakai
-5. Tekan tombol "Search"
+4. Masukan _starting directory_ dan nama file yang ingin dicari
+5. Pilih algoritma yang ingin dipakai
+6. Tekan tombol "Search"
 
 ## Room for Improvement
 
