@@ -1,40 +1,83 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.IO;
 
 namespace Tubes2_13520027
 {
     public class BFS
     {
-        public static void Find(string startingPath, string target, List<string> visited, List<string> answer, bool IsFindAll)
+        private static void BFSDirectories (string startingPath, Queue<string> totalpaths, Queue<string> pathTemp)
+        {
+            List<string> dirTemp = new();
+            List<string> fileTemp = new();
+ 
+
+            string[] subdirs = Directory.GetDirectories(startingPath);
+            foreach (string subdir in subdirs)
+            {
+                dirTemp.Add(subdir);
+            }
+
+            string[] files = Directory.GetFiles(startingPath);
+            foreach (string file in files)
+            {
+                fileTemp.Add(file);
+            }
+
+            while (dirTemp.Count > 0 || fileTemp.Count > 0)
+            {
+                if (dirTemp.Count > 0 && fileTemp.Count > 0)
+                {
+                    string dirTempName = dirTemp[0];
+                    string fileTempName = fileTemp[0];
+                    int comp = string.Compare(dirTempName, fileTempName);
+                    if (comp == -1)
+                    {
+                        pathTemp.Enqueue(dirTempName);
+                        totalpaths.Enqueue(dirTempName);
+                        dirTemp.RemoveAt(0);
+                    }
+                    else
+                    {
+                        totalpaths.Enqueue(fileTempName);                   
+                        fileTemp.RemoveAt(0);
+                    }
+                } else if (dirTemp.Count > 0 && fileTemp.Count == 0)
+                {
+                    totalpaths.Enqueue(dirTemp[0]);
+                    pathTemp.Enqueue(dirTemp[0]);
+                    dirTemp.RemoveAt(0);
+                } else if (dirTemp.Count == 0 && fileTemp.Count > 0)
+                {
+                    totalpaths.Enqueue(fileTemp[0]);
+                    fileTemp.RemoveAt(0);
+                }
+            }
+        }
+        public static void Find(string startingPath, string target, List<string>visited, List<string> answer, bool IsFindAll)
         {
             Queue<string> paths = new();
-            paths.Enqueue(startingPath);
+            Queue<string> pathTemp = new();
+
+            BFSDirectories(startingPath, paths, pathTemp);
+
+            while (pathTemp.Count > 0)
+            {
+                string loopDir = pathTemp.Dequeue();
+                BFSDirectories(loopDir, paths, pathTemp);
+            }
 
             while (paths.Count > 0)
             {
-                string path = paths.Dequeue();
-                visited.Add(path);
-                string[] filesPath = Directory.GetFiles(path);
-                foreach (string filePath in filesPath)
-                {
-                    visited.Add(filePath);
-                    //graph.AddEdge(Path.GetFileName(path), Path.GetFileName(filePath));
-                    if (Path.GetFileName(filePath) == target)
+                string pathagain = paths.Dequeue();
+                visited.Add(pathagain);
+                if (Path.GetFileName(pathagain) == target)
                     {
-                        answer.Add(filePath);
-                        //graph.FindNode(Path.GetFileName(filePath)).Attr.FillColor = Color.Green;
+                        answer.Add(pathagain);
                         if (!IsFindAll)
                         {
                             return;
                         }
                     }
-                }
-                string[] dirs = Directory.GetDirectories(path);
-                foreach (string dir in dirs)
-                {
-                    paths.Enqueue(dir);
-                    //graph.AddEdge(Path.GetFileName(path), Path.GetFileName(dir));
-                }
             }
         }
     }
