@@ -5,11 +5,11 @@ namespace Tubes2_13520027
 {
     public class BFS
     {
-        private static void BFSDirectories (string startingPath, Queue<string> totalpaths, Queue<string> pathTemp)
+        private static void BFSDirectories(string startingPath, Queue<string> totalpaths, Queue<string> pathTemp)
         {
             List<string> dirTemp = new();
             List<string> fileTemp = new();
- 
+
 
             string[] subdirs = Directory.GetDirectories(startingPath);
             foreach (string subdir in subdirs)
@@ -38,22 +38,24 @@ namespace Tubes2_13520027
                     }
                     else
                     {
-                        totalpaths.Enqueue(fileTempName);                   
+                        totalpaths.Enqueue(fileTempName);
                         fileTemp.RemoveAt(0);
                     }
-                } else if (dirTemp.Count > 0 && fileTemp.Count == 0)
+                }
+                else if (dirTemp.Count > 0 && fileTemp.Count == 0)
                 {
                     totalpaths.Enqueue(dirTemp[0]);
                     pathTemp.Enqueue(dirTemp[0]);
                     dirTemp.RemoveAt(0);
-                } else if (dirTemp.Count == 0 && fileTemp.Count > 0)
+                }
+                else if (dirTemp.Count == 0 && fileTemp.Count > 0)
                 {
                     totalpaths.Enqueue(fileTemp[0]);
                     fileTemp.RemoveAt(0);
                 }
             }
         }
-        public static void Find(string startingPath, string target, List<string>visited, List<string> answer, bool IsFindAll)
+        public static void Find(string startingPath, string target, List<string> visited, List<string> answer, bool IsFindAll)
         {
             Queue<string> paths = new();
             Queue<string> pathTemp = new();
@@ -71,13 +73,13 @@ namespace Tubes2_13520027
                 string pathagain = paths.Dequeue();
                 visited.Add(pathagain);
                 if (Path.GetFileName(pathagain) == target)
+                {
+                    answer.Add(pathagain);
+                    if (!IsFindAll)
                     {
-                        answer.Add(pathagain);
-                        if (!IsFindAll)
-                        {
-                            return;
-                        }
+                        return;
                     }
+                }
             }
         }
     }
